@@ -1,0 +1,111 @@
+{
+  "version": "2",
+  "templates": [
+    {
+      "type": 3,
+      "title": "Serviço Web com Traefik (subdomínio)",
+      "description": "Stack padrão para deploy de serviço web com proxy reverso Traefik via subdomínio (ex: meu-app.uesb.br). Inclui volume NFS para persistência de dados.",
+      "categories": ["CPDS", "web"],
+      "platform": "linux",
+      "repository": {
+        "stackfile": "templates/stack-subdominio.yml",
+        "url": ""
+      },
+      "env": [
+        {
+          "name": "NOME_SERVICO",
+          "label": "Nome do serviço",
+          "description": "Nome único para identificar o serviço (sem espaços, ex: meu-app)"
+        },
+        {
+          "name": "IMAGEM",
+          "label": "Imagem Docker",
+          "description": "Imagem do registry (ex: cpds-registry.uesb.br/projeto/app:latest)"
+        },
+        {
+          "name": "DOMINIO",
+          "label": "Domínio de acesso",
+          "description": "Domínio completo (ex: meu-app.uesb.br). Requer DNS configurado."
+        },
+        {
+          "name": "PORTA_BACKEND",
+          "label": "Porta do container",
+          "description": "Porta interna que a aplicação escuta (ex: 8080)",
+          "default": "8080"
+        },
+        {
+          "name": "DIR_NFS",
+          "label": "Diretório NFS",
+          "description": "Nome do diretório em /data/servicos/ (criar via NFS Manager antes do deploy)"
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "title": "Serviço Web com Traefik (sub-path)",
+      "description": "Stack para deploy de serviço web acessível via cpds-service.uesb.br/meu-servico. Não requer DNS adicional.",
+      "categories": ["CPDS", "web"],
+      "platform": "linux",
+      "repository": {
+        "stackfile": "templates/stack-subpath.yml",
+        "url": ""
+      },
+      "env": [
+        {
+          "name": "NOME_SERVICO",
+          "label": "Nome do serviço",
+          "description": "Nome único para identificar o serviço (sem espaços, ex: meu-app)"
+        },
+        {
+          "name": "IMAGEM",
+          "label": "Imagem Docker",
+          "description": "Imagem do registry (ex: cpds-registry.uesb.br/projeto/app:latest)"
+        },
+        {
+          "name": "PATH_PREFIX",
+          "label": "Prefixo do path",
+          "description": "Path de acesso sem barra final (ex: /meu-app)"
+        },
+        {
+          "name": "PORTA_BACKEND",
+          "label": "Porta do container",
+          "description": "Porta interna que a aplicação escuta (ex: 8080)",
+          "default": "8080"
+        },
+        {
+          "name": "DIR_NFS",
+          "label": "Diretório NFS",
+          "description": "Nome do diretório em /data/servicos/ (criar via NFS Manager antes do deploy)"
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "title": "Serviço simples (sem proxy)",
+      "description": "Stack básica para serviço interno sem exposição via Traefik. Acesso apenas pela rede interna do Swarm.",
+      "categories": ["CPDS", "interno"],
+      "platform": "linux",
+      "repository": {
+        "stackfile": "templates/stack-interno.yml",
+        "url": ""
+      },
+      "env": [
+        {
+          "name": "NOME_SERVICO",
+          "label": "Nome do serviço",
+          "description": "Nome único para identificar o serviço (sem espaços, ex: meu-worker)"
+        },
+        {
+          "name": "IMAGEM",
+          "label": "Imagem Docker",
+          "description": "Imagem do registry (ex: cpds-registry.uesb.br/projeto/worker:latest)"
+        },
+        {
+          "name": "DIR_NFS",
+          "label": "Diretório NFS",
+          "description": "Nome do diretório em /data/servicos/ (criar via NFS Manager antes do deploy)"
+        }
+      ]
+    }
+  ]
+}
